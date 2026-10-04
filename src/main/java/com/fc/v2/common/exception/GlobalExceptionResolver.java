@@ -101,6 +101,18 @@ public class GlobalExceptionResolver{
     }
     
     /**
+     * 联网清单页落库退回：照原话退回，并点明毛病出在哪一格
+     */
+    @ExceptionHandler(VehBindRejectException.class)
+    public AjaxResult vehBindReject(VehBindRejectException e)
+    {
+        logger.error("联网清单页退回：{} - {}", e.getField(), e.getMessage());
+        AjaxResult result = AjaxResult.error(e.getMessage());
+        result.put("field", e.getField());
+        return result;
+    }
+
+    /**
      * 演示模式异常
      */
     @ExceptionHandler(DemoModeException.class)

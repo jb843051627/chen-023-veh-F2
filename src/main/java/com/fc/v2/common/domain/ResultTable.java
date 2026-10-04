@@ -28,6 +28,21 @@ public class ResultTable {
      */
     private Object data;
 
+    /**
+     * 联网清单页头三栏：挂页车数
+     */
+    private Integer bindTotal;
+
+    /**
+     * 联网清单页头三栏：已联齐
+     */
+    private Integer bindLinked;
+
+    /**
+     * 联网清单页头三栏：缺项
+     */
+    private Integer bindLack;
+
     public Integer getCode() {
         return code;
     }
@@ -58,6 +73,30 @@ public class ResultTable {
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    public Integer getBindTotal() {
+        return bindTotal;
+    }
+
+    public void setBindTotal(Integer bindTotal) {
+        this.bindTotal = bindTotal;
+    }
+
+    public Integer getBindLinked() {
+        return bindLinked;
+    }
+
+    public void setBindLinked(Integer bindLinked) {
+        this.bindLinked = bindLinked;
+    }
+
+    public Integer getBindLack() {
+        return bindLack;
+    }
+
+    public void setBindLack(Integer bindLack) {
+        this.bindLack = bindLack;
     }
 
     /**

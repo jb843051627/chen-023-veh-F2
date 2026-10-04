@@ -31,14 +31,24 @@ public class TVehBindPage implements Serializable {
     @ApiModelProperty(value = "主键")
     private Long id;
 
-    /** 车辆联网清单页代号 */
+    /** 车辆联网清单页代号（清单代号，系统排号，本子自带不认） */
     @TableField("bill_no")
     @ApiModelProperty(value = "车辆联网清单页代号")
     private String billNo;
 
-    /** 页所在层级序 */
+    /** 随页签认码（系统排号，本子自带不认） */
+    @TableField("sign_no")
+    @ApiModelProperty(value = "随页签认码")
+    private String signNo;
+
+    /** 车辆营运代号 */
+    @TableField("veh_code")
+    @ApiModelProperty(value = "车辆营运代号")
+    private String vehCode;
+
+    /** 页所在层级序 0县域 1市域 2省域 */
     @TableField("node_no")
-    @ApiModelProperty(value = "页所在层级序")
+    @ApiModelProperty(value = "页所在层级序 0县域 1市域 2省域")
     private Integer nodeNo;
 
     /** 所属运输业户 */
@@ -108,6 +118,36 @@ public class TVehBindPage implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
+    /** 业户全称（join 总名录回显，不落本页表） */
+    @TableField(exist = false)
+    @ApiModelProperty(value = "业户全称")
+    private String siteName;
+
+    /** 业户类别（join 总名录回显，不落本页表） */
+    @TableField(exist = false)
+    @ApiModelProperty(value = "业户类别")
+    private String siteType;
+
+    /** 属地那一路（join 总名录回显，不落本页表） */
+    @TableField(exist = false)
+    @ApiModelProperty(value = "属地那一路")
+    private String roadName;
+
+    /** 本屏挂页车数（开屏同回点算的窗口计数，不落本页表） */
+    @TableField(exist = false)
+    @ApiModelProperty(value = "本屏挂页车数")
+    private Integer boardTotal;
+
+    /** 本屏已联齐车数（开屏同回点算的窗口计数，不落本页表） */
+    @TableField(exist = false)
+    @ApiModelProperty(value = "本屏已联齐车数")
+    private Integer boardLinked;
+
+    /** 本屏缺项车数（开屏同回点算的窗口计数，不落本页表） */
+    @TableField(exist = false)
+    @ApiModelProperty(value = "本屏缺项车数")
+    private Integer boardLack;
+
     public Long getId() {
         return id;
     }
@@ -122,6 +162,22 @@ public class TVehBindPage implements Serializable {
 
     public void setBillNo(String billNo) {
         this.billNo = billNo;
+    }
+
+    public String getSignNo() {
+        return signNo;
+    }
+
+    public void setSignNo(String signNo) {
+        this.signNo = signNo;
+    }
+
+    public String getVehCode() {
+        return vehCode;
+    }
+
+    public void setVehCode(String vehCode) {
+        this.vehCode = vehCode;
     }
 
     public Integer getNodeNo() {
@@ -234,5 +290,53 @@ public class TVehBindPage implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
+
+    public String getSiteType() {
+        return siteType;
+    }
+
+    public void setSiteType(String siteType) {
+        this.siteType = siteType;
+    }
+
+    public String getRoadName() {
+        return roadName;
+    }
+
+    public void setRoadName(String roadName) {
+        this.roadName = roadName;
+    }
+
+    public Integer getBoardTotal() {
+        return boardTotal;
+    }
+
+    public void setBoardTotal(Integer boardTotal) {
+        this.boardTotal = boardTotal;
+    }
+
+    public Integer getBoardLinked() {
+        return boardLinked;
+    }
+
+    public void setBoardLinked(Integer boardLinked) {
+        this.boardLinked = boardLinked;
+    }
+
+    public Integer getBoardLack() {
+        return boardLack;
+    }
+
+    public void setBoardLack(Integer boardLack) {
+        this.boardLack = boardLack;
     }
 }

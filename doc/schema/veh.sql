@@ -39,13 +39,15 @@ CREATE TABLE IF NOT EXISTS t_veh_alarm_batch (
 
 CREATE TABLE IF NOT EXISTS t_veh_bind_page (
   id bigint NOT NULL COMMENT '主键',
-  bill_no varchar(64) DEFAULT NULL COMMENT '车辆联网清单页代号',
-  node_no int DEFAULT NULL COMMENT '页所在层级序',
+  bill_no varchar(64) DEFAULT NULL COMMENT '车辆联网清单页代号（清单代号，系统排号，本子自带不认）',
+  sign_no varchar(64) DEFAULT NULL COMMENT '随页签认码（系统排号，本子自带不认）',
+  veh_code varchar(64) DEFAULT NULL COMMENT '车辆营运代号',
+  node_no int DEFAULT NULL COMMENT '页所在层级序 0县域 1市域 2省域',
   site_id int DEFAULT NULL COMMENT '所属运输业户',
   site_no varchar(64) DEFAULT NULL COMMENT '所属业户代号',
   should_count int DEFAULT NULL COMMENT '应联项数',
   done_count int DEFAULT NULL COMMENT '已联项数',
-  lack_count int DEFAULT NULL COMMENT '还差几项',
+  lack_count int DEFAULT NULL COMMENT '还差几项（系统轧出，只回显不录入）',
   content varchar(255) DEFAULT NULL COMMENT '随页交来的联网要件',
   status int DEFAULT NULL COMMENT '联网进展 0新录 1已联齐 2缺项',
   del_flag int DEFAULT '0' COMMENT '删除标记 0正常 1删除',
@@ -54,7 +56,11 @@ CREATE TABLE IF NOT EXISTS t_veh_bind_page (
   update_by varchar(64) DEFAULT NULL COMMENT '更新者',
   update_time datetime DEFAULT NULL COMMENT '更新时间',
   remark varchar(500) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_veh_bind_bill_no (bill_no),
+  KEY idx_veh_bind_sign_no (sign_no),
+  KEY idx_veh_bind_veh_code (veh_code),
+  KEY idx_veh_bind_node (node_no, del_flag)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='车辆联网清单页';
 
 CREATE TABLE IF NOT EXISTS t_veh_due_task (
@@ -149,4 +155,12 @@ CREATE TABLE IF NOT EXISTS t_veh_run_line (
 INSERT IGNORE INTO t_veh_ent (id, site_no, site_name, site_type, road_name, status, del_flag, create_by, create_time)
 VALUES (0, 'YH00', '宁州顺达客运有限公司（道路旅客运输业户，在册）', '道路旅客运输业户', '宁川省—宁州市—临江县', 0, 0, 'seed', NOW()),
        (1, 'YH01', '临江通达危险货物运输站（停运后销户）', '危险货物运输业户', '宁川省—宁州市—临江县', 1, 0, 'seed', NOW());
+
+-- 旧库补列（t_veh_bind_page 为旧版表结构时逐条执行；新库由上面的 CREATE TABLE 带出，勿重复执行）：
+-- ALTER TABLE t_veh_bind_page ADD COLUMN sign_no varchar(64) DEFAULT NULL COMMENT '随页签认码（系统排号）' AFTER bill_no;
+-- ALTER TABLE t_veh_bind_page ADD COLUMN veh_code varchar(64) DEFAULT NULL COMMENT '车辆营运代号' AFTER sign_no;
+-- ALTER TABLE t_veh_bind_page ADD UNIQUE KEY uk_veh_bind_bill_no (bill_no);
+-- ALTER TABLE t_veh_bind_page ADD KEY idx_veh_bind_sign_no (sign_no);
+-- ALTER TABLE t_veh_bind_page ADD KEY idx_veh_bind_veh_code (veh_code);
+-- ALTER TABLE t_veh_bind_page ADD KEY idx_veh_bind_node (node_no, del_flag);
 
