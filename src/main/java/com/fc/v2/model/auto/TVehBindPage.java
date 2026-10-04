@@ -31,14 +31,24 @@ public class TVehBindPage implements Serializable {
     @ApiModelProperty(value = "主键")
     private Long id;
 
-    /** 车辆联网清单页代号 */
+    /** 车辆联网清单页代号（系统排号，本子自带的不认） */
     @TableField("bill_no")
     @ApiModelProperty(value = "车辆联网清单页代号")
     private String billNo;
 
-    /** 页所在层级序 */
+    /** 随页签认码（系统排号，不摆录入框） */
+    @TableField("sign_code")
+    @ApiModelProperty(value = "随页签认码")
+    private String signCode;
+
+    /** 车辆营运代号（一车一页） */
+    @TableField("veh_no")
+    @ApiModelProperty(value = "车辆营运代号")
+    private String vehNo;
+
+    /** 页所在层级序 1县 2市 3省 */
     @TableField("node_no")
-    @ApiModelProperty(value = "页所在层级序")
+    @ApiModelProperty(value = "页所在层级序 1县 2市 3省")
     private Integer nodeNo;
 
     /** 所属运输业户 */
@@ -122,6 +132,22 @@ public class TVehBindPage implements Serializable {
 
     public void setBillNo(String billNo) {
         this.billNo = billNo;
+    }
+
+    public String getSignCode() {
+        return signCode;
+    }
+
+    public void setSignCode(String signCode) {
+        this.signCode = signCode;
+    }
+
+    public String getVehNo() {
+        return vehNo;
+    }
+
+    public void setVehNo(String vehNo) {
+        this.vehNo = vehNo;
     }
 
     public Integer getNodeNo() {

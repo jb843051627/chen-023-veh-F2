@@ -23,6 +23,8 @@ fuce:
   profile: D:/v2/uploadPath
   #核收册每册行数顶（处里定的顶，进门头一步先数行，压过顶整册原样退回）
   veh-alarm-row-cap: 500
+  #清单页每页摆几条（处里定，往下翻还有）
+  veh-bind-page-size: 10
 #tomcat config
 server :
   port : 8080

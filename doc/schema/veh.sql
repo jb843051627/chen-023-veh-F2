@@ -39,13 +39,15 @@ CREATE TABLE IF NOT EXISTS t_veh_alarm_batch (
 
 CREATE TABLE IF NOT EXISTS t_veh_bind_page (
   id bigint NOT NULL COMMENT '主键',
-  bill_no varchar(64) DEFAULT NULL COMMENT '车辆联网清单页代号',
-  node_no int DEFAULT NULL COMMENT '页所在层级序',
+  bill_no varchar(64) DEFAULT NULL COMMENT '清单代号(系统排号)',
+  sign_code varchar(64) DEFAULT NULL COMMENT '随页签认码(系统排号)',
+  veh_no varchar(64) DEFAULT NULL COMMENT '车辆营运代号(一车一页)',
+  node_no int DEFAULT NULL COMMENT '页所在层级序 1县 2市 3省',
   site_id int DEFAULT NULL COMMENT '所属运输业户',
   site_no varchar(64) DEFAULT NULL COMMENT '所属业户代号',
   should_count int DEFAULT NULL COMMENT '应联项数',
   done_count int DEFAULT NULL COMMENT '已联项数',
-  lack_count int DEFAULT NULL COMMENT '还差几项',
+  lack_count int DEFAULT NULL COMMENT '还差几项(系统轧:应联-已联)',
   content varchar(255) DEFAULT NULL COMMENT '随页交来的联网要件',
   status int DEFAULT NULL COMMENT '联网进展 0新录 1已联齐 2缺项',
   del_flag int DEFAULT '0' COMMENT '删除标记 0正常 1删除',
@@ -54,7 +56,11 @@ CREATE TABLE IF NOT EXISTS t_veh_bind_page (
   update_by varchar(64) DEFAULT NULL COMMENT '更新者',
   update_time datetime DEFAULT NULL COMMENT '更新时间',
   remark varchar(500) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_bind_bill_no (bill_no),
+  UNIQUE KEY uk_bind_sign_code (sign_code),
+  -- 一辆车只许有一张在册页：函数索引只对在册行收口，销户/删行不占名
+  UNIQUE KEY uk_bind_veh_active ((CASE WHEN del_flag = 0 THEN veh_no END))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='车辆联网清单页';
 
 CREATE TABLE IF NOT EXISTS t_veh_due_task (

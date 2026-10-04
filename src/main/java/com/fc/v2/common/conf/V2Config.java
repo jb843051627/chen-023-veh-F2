@@ -34,6 +34,8 @@ public class V2Config
     private String profile;
     /** 核收册每册行数顶（处里定的顶，进门头一步先数行） **/
     private Integer vehAlarmRowCap;
+    /** 清单页每页摆几条（处里定，往下翻还有） **/
+    private Integer vehBindPageSize;
 
 	public String getName() {
 		return name;
@@ -104,6 +106,14 @@ public class V2Config
 
 	public void setVehAlarmRowCap(Integer vehAlarmRowCap) {
 		this.vehAlarmRowCap = vehAlarmRowCap;
+	}
+
+	public Integer getVehBindPageSize() {
+		return vehBindPageSize;
+	}
+
+	public void setVehBindPageSize(Integer vehBindPageSize) {
+		this.vehBindPageSize = vehBindPageSize;
 	}
 
 	/**
